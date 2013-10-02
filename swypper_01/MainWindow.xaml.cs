@@ -32,8 +32,8 @@ namespace swypper_01
         private void bw_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
-
-            for (int i = 1; (i <= i); i++)
+            int i = 1;
+            for (; (i <= i); i++)
             {
                 if ((worker.CancellationPending == true))
                 {
