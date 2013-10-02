@@ -55,8 +55,6 @@ namespace swypper_01
                     worker.ReportProgress((i));
                 }
             }
-
-
         }
 
         public Thread newThread;
