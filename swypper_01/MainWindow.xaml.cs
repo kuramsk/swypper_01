@@ -61,6 +61,7 @@ namespace swypper_01
         public void auth()
         {
             //Form1.ActiveForm.Visible = false;
+            //swypper_01.Form1.ActiveForm.Opacity = 0;
             string appId = "3908444";
             string scope = "4096";
             string redirUrl = "http://oauth.vk.com/blank.html";
@@ -167,7 +168,7 @@ namespace swypper_01
         {
             string method = "messages.send";
             string paramss = "uid";
-            string gid = "6373305";
+            string gid = textBox3.Text;
             string token = Settings1.Default.token;
             string resp = GET_http("https://api.vk.com/method/" + method + "?" + paramss + "=" + gid + "&message="+ textBox2.Text +"&access_token=" + token);
 
@@ -182,6 +183,12 @@ namespace swypper_01
         private void label1_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             textBox3.Text = (string)label1.Content;
+        }
+
+        private void btnCloseSess_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Settings1.Default.auth = false;
+            //auth();
         }
 
 

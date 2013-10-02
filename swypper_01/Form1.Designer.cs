@@ -47,9 +47,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(582, 402);
             this.Controls.Add(this.webBrowser1);
-            this.Enabled = false;
+            this.Enabled = true;
             this.Name = "Form1";
-            this.Opacity = 0.5D;
+            this.Opacity = 1.0D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.ResumeLayout(false);
