@@ -187,6 +187,36 @@ namespace swypper_01
                 try{foreach (HtmlNode Data_Node in htmlUid){listBox1.Items.Add((string)Data_Node.InnerHtml);}}catch{MessageBox.Show("Error2");}
 
             }));
+            userGet();
+        }
+
+        public void userGet() //TODO: добавить на вход все параметры!!
+        {
+            string method = "users.get.xml";
+            string uid = "4643416";         //идентификатор пользователя, для которого необходимо получить список друзей. Если параметр не задан, то считается, что он равен идентификатору текущего пользователя.
+            string fields = "first_name";          
+            //перечисленные через запятую поля анкет, необходимые для получения. 
+            //Доступные значения: uid, first_name, last_name, nickname, screen_name, sex, 
+            //bdate (birthdate), city, country, timezone, photo, photo_medium, photo_big, 
+            //has_mobile, rate, contacts, education, online, counters.
+            string name_case = "nom";       //падеж для склонения имени и фамилии пользователя. Возможные значения: именительный – nom, родительный – gen, дательный – dat, винительный – acc, творительный – ins, предложный – abl. По умолчанию nom.
+            string token = Settings1.Default.token;
+            string resp = GET_http("https://api.vk.com/method/" + method + "?" + "uid=" + uid + "&fields=" + fields + "&name_case=" + name_case + "&access_token=" + token);
+            string otvet="";
+            Dispatcher.BeginInvoke(new Action(delegate()
+            {
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(resp);
+                HtmlNodeCollection htmlUid = doc.DocumentNode.SelectNodes("//first_name");
+
+
+                try { foreach (HtmlNode Data_Node in htmlUid) { otvet = (string)Data_Node.InnerHtml; label3.Content = otvet; } }
+                catch { MessageBox.Show("Error2"); otvet = "error"; }
+
+            label3.Content = otvet;
+            }));
+
+            //return otvet;
         }
 
 
