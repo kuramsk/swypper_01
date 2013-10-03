@@ -26,7 +26,7 @@ namespace swypper_01
             bw.WorkerReportsProgress = true;
             bw.WorkerSupportsCancellation = true;
             bw.DoWork += new DoWorkEventHandler(bw_DoWork);
-
+            friendsGet();
         }
 
         private void bw_DoWork(object sender, DoWorkEventArgs e)
@@ -46,7 +46,7 @@ namespace swypper_01
                     Dispatcher.BeginInvoke(new Action(delegate()
                     {
 
-                        listBox1.Items.Add((string)" "+i+"ololo");
+                        //listBox1.Items.Add((string)" "+i+"ololo");
 
                     }));
                     
@@ -97,12 +97,12 @@ namespace swypper_01
                 string token = Settings1.Default.token;
                 string resp = GET_http("https://api.vk.com/method/" + method + "?" + paramss + "=" + gid + "&" + count + "=" + co + "&access_token=" + token);
 
-                Dispatcher.BeginInvoke(new Action(delegate()
+               /* Dispatcher.BeginInvoke(new Action(delegate()
                 {
 
                     textBox1.Text = resp;
 
-                }));
+                }));*/
                 //listBox1.Items.Add(resp)
                 /*HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
                 doc.LoadHtml(resp);
@@ -152,6 +152,43 @@ namespace swypper_01
 
             }
         }
+
+        public void friendsGet() //TODO: добавить на вход все параметры!!
+        {
+            string method = "friends.get.xml";
+            string uid = "4643416";         //идентификатор пользователя, для которого необходимо получить список друзей. Если параметр не задан, то считается, что он равен идентификатору текущего пользователя.
+            string fields = "uid";          //перечисленные через запятую поля анкет, необходимые для получения. Доступные значения: 
+                                            //uid, first_name, last_name, nickname, sex, bdate (birthdate), city, country, timezone, photo, photo_medium, photo_big, domain, has_mobile, rate, contacts, education.
+            string name_case = "nom";       //падеж для склонения имени и фамилии пользователя. Возможные значения: именительный – nom, родительный – gen, дательный – dat, винительный – acc, творительный – ins, предложный – abl. По умолчанию nom.
+            string count = "";              //количество друзей, которое нужно вернуть. (по умолчанию – все друзья)
+            string offset = "5";            //смещение, необходимое для выборки определенного подмножества друзей.
+            string lid = "5";               //идентификатор списка друзей, полученный методом friends.getLists, друзей из которого необходимо получить. Данный параметр учитывается, только когда параметр uid равен идентификатору текущего пользователя.
+            string order = "hints";         //Порядок в котором нужно вернуть список друзей. Допустимые значения: name - сортировать по имени (работает только при переданном параметре fields). hints - сортировать по рейтингу, аналогично тому, как друзья сортируются в разделе Мои друзья
+            string token = Settings1.Default.token;
+            string resp = GET_http("https://api.vk.com/method/" + method + "?" + "uid=" + uid +"&fields=" + fields +"&name_case=" + name_case +"&count=" + count +"&offset=" + offset +"&lid=" + lid +"&order=" + order + "&access_token=" + token);
+            
+            Dispatcher.BeginInvoke(new Action(delegate()
+            {
+                /*
+                    TextBlock txtmsg = new TextBlock();
+                    txtmsg.Text = "New Program.";                               
+                    txtmsg.Margin = new Thickness(10, 20, 10, 10);
+                    txtmsg.TextWrapping = TextWrapping.Wrap;
+                    txtmsg.FontSize = 28;
+                    txtmsg.TextAlignment = TextAlignment.Center;
+                    ContentPanel.Children.Add(txtmsg);
+                 */
+                textBox1.Text = resp;
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(resp);
+                HtmlNodeCollection htmlUid = doc.DocumentNode.SelectNodes("//uid");
+
+
+                try{foreach (HtmlNode Data_Node in htmlUid){listBox1.Items.Add((string)Data_Node.InnerHtml);}}catch{MessageBox.Show("Error2");}
+
+            }));
+        }
+
 
         public string GET_http(string url)
         {
