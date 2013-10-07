@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -194,7 +195,7 @@ namespace swypper_01
         {
             string method = "users.get.xml";
             string uid = "4643416";         //идентификатор пользователя, для которого необходимо получить список друзей. Если параметр не задан, то считается, что он равен идентификатору текущего пользователя.
-            string fields = "first_name";          
+            string fields = "first_name,last_name,nickname,screen_name,sex,bdate,city,country,timezone,photo,photo_medium,photo_big,has_mobile,rate,online";          
             //перечисленные через запятую поля анкет, необходимые для получения. 
             //Доступные значения: uid, first_name, last_name, nickname, screen_name, sex, 
             //bdate (birthdate), city, country, timezone, photo, photo_medium, photo_big, 
@@ -203,17 +204,54 @@ namespace swypper_01
             string token = Settings1.Default.token;
             string resp = GET_http("https://api.vk.com/method/" + method + "?" + "uid=" + uid + "&fields=" + fields + "&name_case=" + name_case + "&access_token=" + token);
             string otvet="";
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(resp);
+            HtmlNodeCollection first_name_node = doc.DocumentNode.SelectNodes("//first_name");
+            HtmlNodeCollection last_name_node = doc.DocumentNode.SelectNodes("//last_name");
+            HtmlNodeCollection nickname_node = doc.DocumentNode.SelectNodes("//nickname");
+            HtmlNodeCollection screen_name_node = doc.DocumentNode.SelectNodes("//screen_name");
+            HtmlNodeCollection sex_node = doc.DocumentNode.SelectNodes("//sex");
+            HtmlNodeCollection bdate_node = doc.DocumentNode.SelectNodes("//bdate");
+            HtmlNodeCollection city_node = doc.DocumentNode.SelectNodes("//city");
+            HtmlNodeCollection country_node = doc.DocumentNode.SelectNodes("//country");
+            HtmlNodeCollection timezone_node = doc.DocumentNode.SelectNodes("//timezone");
+            HtmlNodeCollection photo_node = doc.DocumentNode.SelectNodes("//photo");
+            HtmlNodeCollection photo_medium_node = doc.DocumentNode.SelectNodes("//photo_medium");
+            HtmlNodeCollection photo_big_node = doc.DocumentNode.SelectNodes("//photo_big");
+            HtmlNodeCollection has_mobile_node = doc.DocumentNode.SelectNodes("//has_mobile");
+            HtmlNodeCollection rate_node = doc.DocumentNode.SelectNodes("//rate");
+            HtmlNodeCollection online_node = doc.DocumentNode.SelectNodes("//online");
+
             Dispatcher.BeginInvoke(new Action(delegate()
             {
-                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-                doc.LoadHtml(resp);
-                HtmlNodeCollection htmlUid = doc.DocumentNode.SelectNodes("//first_name");
+                try 
+                {
+                    //otvet = (string)first_name_node["first_name"].InnerHtml + " " + (string)last_name_node["last_name"].InnerHtml;
+                    //ImageThing.Source = New BitmapImage(New Uri("images/Thing.png", UriKind.Relative));
+                    //imageAvatar.Source = photo_node["photo"].InnerHtml;
+                    //ImageThing.Source = New BitmapImage(New Uri("images/Thing.png", UriKind.Relative));
+                    otvet = (string)photo_node["photo"].InnerHtml;
+
+                    string url = otvet;
+                    using (WebClient client = new WebClient())
+                    {
+                        client.DownloadFile(url, AppDomain.CurrentDomain.BaseDirectory + "test.jpg");
+                    }
+
+                    ImageThing.OpacityMask.Opacity = 0.2;
 
 
-                try { foreach (HtmlNode Data_Node in htmlUid) { otvet = (string)Data_Node.InnerHtml; label3.Content = otvet; } }
-                catch { MessageBox.Show("Error2"); otvet = "error"; }
+                    labelUserName.Content = otvet; 
+                     
+                }
+                catch 
+                { 
+                    MessageBox.Show("Error2"); 
+                    otvet = "error"; 
+                }
 
-            label3.Content = otvet;
+
+            //labelUserName.Content = otvet;
             }));
 
             //return otvet;

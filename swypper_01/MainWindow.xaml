@@ -3,16 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="460.15" Width="889">
     <Grid>
-        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="300" Margin="10,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="417"/>
-        <ListBox x:Name="listBox1" HorizontalAlignment="Left" Height="300" Margin="432,10,0,0" VerticalAlignment="Top" Width="75"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="300" Margin="10,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="279"/>
+        <ListBox x:Name="listBox1" HorizontalAlignment="Left" Height="300" Margin="294,10,0,0" VerticalAlignment="Top" Width="93"/>
         <Button x:Name="sendButton" Content="send im" HorizontalAlignment="Left" Margin="432,360,0,0" VerticalAlignment="Top" Width="75" Height="60" Click="sendButton_Click"/>
         <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="60" Margin="10,360,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="417"/>
         <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="23" Margin="10,315,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="label1" Content="6373305" HorizontalAlignment="Left" Margin="135,315,0,0" VerticalAlignment="Top" Height="23" MouseDoubleClick="label1_MouseDoubleClick"/>
         <Label x:Name="label2" Content="4643416" HorizontalAlignment="Left" Margin="195,315,0,0" VerticalAlignment="Top" Height="23" MouseDoubleClick="label2_MouseDoubleClick"/>
-        <Grid x:Name="Grid1" HorizontalAlignment="Left" Height="300" Margin="512,10,0,0" VerticalAlignment="Top" Width="359">
-            <Image x:Name="picture" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50"/>
-            <Label x:Name="label3" Content="имя" HorizontalAlignment="Left" Height="25" Margin="50,0,0,0" VerticalAlignment="Top" Width="152"/>
+        <Grid x:Name="Grid1" HorizontalAlignment="Left" Height="300" Margin="392,10,0,0" VerticalAlignment="Top" Width="359">
+            <Image Name="ImageThing" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50" Source="c:/1.jpg" Uid="0001" OverridesDefaultStyle="True">
+                <Image.OpacityMask>
+                    <ImageBrush ImageSource="c:/1.jpg" Stretch="Uniform"/>
+                </Image.OpacityMask>
+
+            </Image>
+
+
+            <Label x:Name="labelUserName" Content="имя" HorizontalAlignment="Left" Height="25" Margin="50,0,0,0" VerticalAlignment="Top" Width="152"/>
         </Grid>
         
     </Grid>
